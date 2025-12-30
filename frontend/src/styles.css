@@ -1,0 +1,45 @@
+:root {
+  --bs-success: #06D6A0;
+  --bs-primary: #F7931E;
+  --accent: #06D6A0;
+}
+
+body {
+  background-color: #f8f9fa;
+  font-family: 'Nunito', sans-serif;
+}
+
+.bg_autpage{
+  background-image: url('../img/images.jpeg');
+}
+.btn-primary {
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+.btn-primary:hover {
+  background-color: #e6830d;
+  border-color: #e6830d;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  background-color: var(--bs-primary);
+}
+
+.text-primary {
+  color: var(--bs-primary) !important;
+}
+
+.text-accent {
+  color: var(--accent) !important;
+}
+
+.bg-accent {
+  background-color: var(--accent) !important;
+}
+
+/* Make Bootstrap's success color use our accent green */
+.btn-success {
+  background-color: var(--bs-success);
+  border-color: var(--bs-success);
+}
