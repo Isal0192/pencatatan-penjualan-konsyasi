@@ -13,9 +13,9 @@ export const register = async (req, res) => {
     }
 
     // Tolak registrasi untuk peran 'penjual'
-    if (role === 'penjual') {
-      return res.status(403).json({ message: 'maaf register sebagai penjual di tolak silahkan hubungi 083879865505' });
-    }
+    // if (role === 'penjual') {
+    //   return res.status(403).json({ message: 'maaf register sebagai penjual di tolak silahkan hubungi 083879865505' });
+    // }
 
     const existingUser = await User.findByEmail(email);
     if (existingUser) {

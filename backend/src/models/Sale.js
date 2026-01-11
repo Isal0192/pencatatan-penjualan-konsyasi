@@ -1,16 +1,15 @@
 import pool from '../config/database.js';
 import Penitip_income from './penitip_income.js';
 import Penjual_income from './Penjual_income.js';
+import { encrypt } from '../middleware/encript.js';
 
 export const Sale = {
   create: async (itemId, penjualId, penitipId, quantitySold, sellingUnitPrice, penitipUnitPrice) => {
-    // Business rule: penitip provides a base price (penitipUnitPrice). Penjual may sell at sellingUnitPrice.
-    // Penitip should receive (penitipUnitPrice * quantitySold). Penjual income is the remainder.
     const totalPrice = quantitySold * sellingUnitPrice;
     const penitipTotal = quantitySold * penitipUnitPrice;
     const penjualIncome = totalPrice - penitipTotal;
-    const commissionAmount = 0; // platform commission currently 0; business split is between penitip & penjual
-
+    const commissionAmount = 0;
+    
     const result = await pool.query(
       `INSERT INTO sales (item_id, penjual_id, penitip_id, quantity_sold, unit_price, total_price, commission_percentage, commission_amount, penjual_income, status, sale_date)
        VALUES ($1, $2, $3, $4, $5, $6, NULL, $7, $8, 'completed', CURRENT_TIMESTAMP)
@@ -18,12 +17,8 @@ export const Sale = {
       [itemId, penjualId, penitipId, quantitySold, sellingUnitPrice, totalPrice, commissionAmount, penjualIncome]
     );
     
-    // panggil update penitip income untuk update 
     const penitipIncome = totalPrice - penjualIncome;
-    // Di model Sale.js
     await Penitip_income.createPenitipIncome(penitipId, itemId, totalPrice, penitipIncome, new Date());
-
-    // panggil update penjual income untuk update
     await Penjual_income.createPenjualIncome(penjualId, totalPrice, commissionAmount, penjualIncome, new Date());
 
     return result.rows[0];

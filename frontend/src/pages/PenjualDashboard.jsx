@@ -145,7 +145,6 @@ export default function PenjualDashboard({ user, onLogout }) {
               </Nav.Item>
             </Nav>
           </Col>
-
           <main className="col-md-10 p-4" style={{ overflowY: 'auto' }}>
             <header className="pb-3 mb-4 border-bottom">
               <h2 className="h4">{tabTitles[activeTab]}</h2>
